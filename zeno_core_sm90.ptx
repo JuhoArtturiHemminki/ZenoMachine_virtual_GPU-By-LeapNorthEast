@@ -1,0 +1,48 @@
+.version 8.0
+.target sm_90
+
+.visible .entry zeno_hyper_engine_complete(
+.param .u32 constant_K,
+.param .u32 iterations,
+.param .u64 global_output
+)
+{
+.reg .u32 %X;
+.reg .u32 %K;
+.reg .u32 %N;
+.reg .u32 %i;
+.reg .u32 %anchor;
+.reg .u32 %temp;
+.reg .pred %p;
+.reg .u64 %out_ptr;
+.reg .u64 %offset;
+
+ld.param.u32 %K, [constant_K];
+ld.param.u32 %N, [iterations];
+
+mov.u32 %X, %tid.x;
+mov.u32 %i, 0;
+mov.u32 %anchor, 0xAA55AA55;
+
+$ZENO_LOOP_START:
+xor.b32 %anchor, %anchor, %X;
+shf.l.wrap.b32 %anchor, %anchor, %anchor, 3;
+
+shfl.sync.bfly.b32 %temp|%p, %anchor, 1, 0xFFFFFFFF, 0xFFFFFFFF;
+xor.b32 %X, %X, %temp;
+
+xor.b32 %X, %X, %K;
+shf.l.wrap.b32 %X, %X, %X, 7;
+
+add.u32 %X, %X, %i;
+add.u32 %i, %i, 1;
+setp.lt.u32 %p, %i, %N;
+@%p bra $ZENO_LOOP_START;
+
+ld.param.u64 %out_ptr, [global_output];
+mul.wide.u32 %offset, %tid.x, 4;
+add.u64 %out_ptr, %out_ptr, %offset;
+st.global.u32 [%out_ptr], %X;
+
+ret;
+}
