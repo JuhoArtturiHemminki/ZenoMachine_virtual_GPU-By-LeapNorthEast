@@ -21,7 +21,9 @@ The framework claims an extension of the geometric temporal lock onto an entire 
 
 #### Claim 2.1: Multi-Dimensional Grid Complexity Inversion
 The framework claims a Massively Parallel Density Integration methodology where the physical GPU evaluates a fixed loop limited to exactly $N = 50$ linear iterations. Across the $G = 4096$ multi-threaded grid matrix, the system processes up to $1.18 \times 10^{21}$ units (over 1.18 sextillion variations) of virtual compressed informational density during the fixed real-time 2.0-second window, securely mapping the massive complexity expansion into the spatial layout of the thread array:
-$$\mathcal{D}_{\text{Grid}, 50} = \sum_{g=1}^{4096} \sum_{n=1}^{50} \mathcal{W}(S_{n, g}) \cdot 2^{n-1}$$
+
+$$\mathcal{D}_{\text{Grid},50}=\sum_{g=1}^{4096}\sum_{n=1}^{50}\mathcal{W}(S_{n,g})\cdot2^{n-1}$$
+
 where $\mathcal{W}(S_{n, g})$ tracks the collective hardware Hamming weight distribution across the parallel register lanes.
 
 #### Claim 2.2: Zero-VRAM In-Warp Execution
